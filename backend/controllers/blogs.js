@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const Blog = require('../models/blog')
-
 const { userExtractor } = require('../utils/middleware')
 
 router.get('/', async (request, response) => {
@@ -31,13 +30,19 @@ router.post('/', userExtractor, async (request, response) => {
   user.blogs = user.blogs.concat(createdBlog._id)
   await user.save()
 
+  createdBlog.user = user
+
   response.status(201).json(createdBlog)
 })
 
 router.put('/:id', async (request, response) => {
   const { title, url, author, likes } = request.body
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id,  { title, url, author, likes }, { new: true })
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,  
+    { title, url, author, likes }, 
+    { new: true }
+  ).populate('user', {username: 1, name: 1})
 
   response.json(updatedBlog)
 })
