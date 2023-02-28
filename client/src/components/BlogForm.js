@@ -1,53 +1,53 @@
-import {useState} from 'react'
+import { useState } from 'react'
 
 const BlogForm = (props) => {
-    const [newTitle, setNewTitle] = useState('')
-    const [newAuthor, setNewAuthor] = useState('')
-    const [newUrl, setNewUrl] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
 
-    const handleAuthorChange = (event) => {
-        setNewAuthor(event.target.value)
-    }
-    
-    const handleTitleChange = (event) => {
-        setNewTitle(event.target.value)
-    }
-    
-    const handleUrlChange = (event) => {
-        setNewUrl(event.target.value)
-    }
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value)
+  }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault()
-    
-        const newBlog = {
-          title: newTitle,
-          author: newAuthor,
-          url: newUrl,
-        }
+  const handleTitleChange = (event) => {
+    setNewTitle(event.target.value)
+  }
 
-        await props.createBlog(newBlog)    
+  const handleUrlChange = (event) => {
+    setNewUrl(event.target.value)
+  }
 
-        setNewAuthor('')
-        setNewTitle('')
-        setNewUrl('')
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
     }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <div>
+    await props.createBlog(newBlog)
+
+    setNewAuthor('')
+    setNewTitle('')
+    setNewUrl('')
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
                 title: <input value={newTitle} onChange={handleTitleChange}/>
-            </div>
-            <div>
+      </div>
+      <div>
                 author: <input value={newAuthor} onChange={handleAuthorChange} />
-            </div>
-            <div>
+      </div>
+      <div>
                 url: <input value={newUrl} onChange={handleUrlChange} />
-            </div>
-            <div>
-                <button type="submit">create</button>
-            </div>
-        </form>
-    )
+      </div>
+      <div>
+        <button type="submit">create</button>
+      </div>
+    </form>
+  )
 }
-export default BlogForm;
+export default BlogForm
