@@ -49,7 +49,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-
+      console.log('wrong credentials')
       setIsError(true)
       setMessage(
         'Wrong userame or password'
@@ -59,7 +59,7 @@ const App = () => {
   }
 
   const createBlog = async (blog) => {
-
+    // console.log('create blog', blog)
     const newBlog = {
       title: blog.title,
       author: blog.author,
@@ -144,7 +144,7 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <Togglable buttonLabel="login">
+      <Togglable buttonLabel="log in">
         <LoginForm
           username={username}
           password={password}
@@ -160,6 +160,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={message} isError={isError}/>
         {loginForm()}
       </div>
     )
@@ -169,16 +170,25 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification message={message} isError={isError}/>
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+      <p>
+        {user.name} logged in
+        <button id='logout-button'
+          onClick={handleLogout}>log out</button>
+      </p>
       <h3>Create New</h3>
-      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+      <Togglable
+        classLabel="new-blog"
+        buttonLabel="new blog"
+        ref={blogFormRef}>
         <BlogForm
           createBlog={createBlog} />
       </Togglable>
       {blogs.map(blog =>
         <Blog
           key={blog.id}
+          className={blog}
           blog={blog}
+          user={user}
           updateBlog={updateBlog}
           removeBlog={removeBlog} />
       )}
